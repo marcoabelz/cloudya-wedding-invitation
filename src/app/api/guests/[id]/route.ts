@@ -17,8 +17,8 @@ export async function PATCH(
   // Only allow updating specific fields
   const allowedFields = [
     "sent_at",
-    "whatsapp_opened",
-    "rsvp_submitted",
+    // "whatsapp_opened",
+    // "rsvp_submitted",
     "phone",
   ];
   const updateData: Record<string, unknown> = {};

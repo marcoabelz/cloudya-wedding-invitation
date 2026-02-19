@@ -22,8 +22,8 @@ export type Database = {
           slug: string
           phone: string | null
           sent_at: string | null
-          whatsapp_opened: boolean | null
-          rsvp_submitted: boolean | null
+          // whatsapp_opened: boolean | null
+          // rsvp_submitted: boolean | null
         }
         Insert: {
           created_at?: string | null

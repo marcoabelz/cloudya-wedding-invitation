@@ -3,15 +3,16 @@
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
 
 export function EventSection() {
   const { events } = weddingConfig;
+  const bg = getSectionBg("event");
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-rose-50 to-white">
+    <section className={`py-20 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p className="text-sm uppercase tracking-[0.3em] text-rose-400 mb-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { FadeIn } from "@/components/animations/fade-in";
 import {
   StaggerChildren,
@@ -16,8 +16,10 @@ export function GallerySection() {
     return null;
   }
 
+  const bg = getSectionBg("gallery");
+
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className={`py-20 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-5xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p className="text-sm uppercase tracking-[0.3em] text-rose-400 mb-2">

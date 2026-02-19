@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Gift, Copy, Check } from "lucide-react";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
 
@@ -13,8 +13,10 @@ export function GiftsSection() {
     return null;
   }
 
+  const bg = getSectionBg("gifts");
+
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className={`py-20 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-2xl mx-auto">
         <FadeIn className="text-center mb-12">
           <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4">

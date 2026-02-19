@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { FadeIn } from "@/components/animations/fade-in";
 import { useMessages } from "@/hooks/use-messages";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import type { Message, AttendanceStatus } from "@/types";
 
 const messageSchema = z.object({
@@ -64,8 +65,10 @@ export function RsvpSection({ guestName, initialMessages }: RsvpSectionProps) {
     form.reset({ ...form.getValues(), message: "" });
   };
 
+  const bg = getSectionBg("rsvp");
+
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-white to-rose-50">
+    <section className={`py-20 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p className="text-sm uppercase tracking-[0.3em] text-rose-400 mb-2">

@@ -1,0 +1,51 @@
+  ---
+  Step 3 — Deploy ke Vercel
+
+  1. Buka vercel.com → Add New Project
+  2. Import repo GitHub-nya
+  3. Framework akan auto-detect sebagai Next.js — biarkan default
+  4. Sebelum klik Deploy, masuk ke bagian Environment Variables, tambahkan:
+
+  ┌───────────────────────────────┬────────────────────────────────────────────────────────────┐
+  │              Key              │                           Value                            │
+  ├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+  │ NEXT_PUBLIC_SUPABASE_URL      │ https://xxx.supabase.co                                    │
+  ├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+  │ NEXT_PUBLIC_SUPABASE_ANON_KEY │ eyJhbGci...                                                │
+  ├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+  │ NEXT_PUBLIC_BASE_URL          │ https://domain-kamu.com (isi dulu sementara, nanti update) │
+  ├───────────────────────────────┼────────────────────────────────────────────────────────────┤
+  │ NEXT_PUBLIC_INVITATION_DOMAIN │ domain-kamu.com                                            │
+  └───────────────────────────────┴────────────────────────────────────────────────────────────┘
+
+  5. Klik Deploy → tunggu build selesai (~1-2 menit)
+
+  ---
+  Step 4 — Custom Domain
+
+  1. Di Vercel dashboard → project kamu → Settings → Domains
+  2. Klik Add Domain → ketik domain kamu (misal undangancloudya.com)
+  3. Vercel akan kasih 2 pilihan DNS record:
+    - A Record: 76.76.21.21 → untuk apex domain (@)
+    - CNAME Record: cname.vercel-dns.com → untuk subdomain (www)
+  4. Masuk ke dashboard domain registrar kamu (Niagahoster, Namecheap, Cloudflare, dll)
+  5. Tambahkan DNS record sesuai instruksi Vercel
+  6. Tunggu propagasi DNS — biasanya 5-30 menit, max 48 jam
+  7. Vercel otomatis kasih SSL certificate gratis (HTTPS)
+
+  ---
+  Step 5 — Update Environment Variable
+
+  Setelah domain aktif:
+
+  1. Di Vercel → Settings → Environment Variables
+  2. Update NEXT_PUBLIC_BASE_URL → https://domain-kamu.com
+  3. Update NEXT_PUBLIC_INVITATION_DOMAIN → domain-kamu.com
+  4. Klik Save → lalu Redeploy (di tab Deployments → klik titik tiga → Redeploy)
+
+  ---
+  Step 6 — Test
+
+  - Buka https://domain-kamu.com → pastiin landing page muncul
+  - Buka https://domain-kamu.com/nama-tamu → pastiin undangan personal jalan
+  - Buka https://domain-kamu.com/admin/blast → pastiin dashboard WA blast jalan

@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { FadeIn } from "@/components/animations/fade-in";
 
 export function CoupleSection() {
   const { couple } = weddingConfig;
+  const bg = getSectionBg("couple");
 
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className={`py-20 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-4xl mx-auto">
         <FadeIn className="text-center mb-16">
           <p className="text-sm uppercase tracking-[0.3em] text-rose-400 mb-2">
@@ -23,45 +24,47 @@ export function CoupleSection() {
           </p>
         </FadeIn>
 
-        <div className="grid md:grid-cols-2 gap-12 md:gap-8">
-          {/* Groom */}
-          <FadeIn delay={0.2} className="text-center">
-            <div className="relative w-48 h-48 mx-auto mb-6">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-rose-200 to-rose-300" />
-              <div className="absolute inset-2 rounded-full bg-white overflow-hidden">
+        <div className="flex flex-col gap-16">
+          {/* Groom — text kiri, foto kanan */}
+          <FadeIn delay={0.2}>
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="flex-1 text-center md:text-right order-2 md:order-1">
+                <h3 className="text-2xl md:text-3xl font-playfair text-foreground mb-2">
+                  {couple.groom.fullName}
+                </h3>
+                <p className="text-muted-foreground">{couple.groom.parents}</p>
+              </div>
+              <div className="relative w-56 h-56 flex-shrink-0 order-1 md:order-2 overflow-hidden rounded-xl">
                 <Image
                   src={couple.groom.photo}
                   alt={couple.groom.name}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 192px, 192px"
+                  sizes="224px"
                 />
               </div>
             </div>
-            <h3 className="text-2xl md:text-3xl font-playfair text-foreground mb-2">
-              {couple.groom.fullName}
-            </h3>
-            <p className="text-muted-foreground">{couple.groom.parents}</p>
           </FadeIn>
 
-          {/* Bride */}
-          <FadeIn delay={0.4} className="text-center">
-            <div className="relative w-48 h-48 mx-auto mb-6">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-rose-200 to-rose-300" />
-              <div className="absolute inset-2 rounded-full bg-white overflow-hidden">
+          {/* Bride — foto kiri, text kanan */}
+          <FadeIn delay={0.4}>
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="relative w-56 h-56 flex-shrink-0 overflow-hidden rounded-xl">
                 <Image
                   src={couple.bride.photo}
                   alt={couple.bride.name}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 192px, 192px"
+                  sizes="224px"
                 />
               </div>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl md:text-3xl font-playfair text-foreground mb-2">
+                  {couple.bride.fullName}
+                </h3>
+                <p className="text-muted-foreground">{couple.bride.parents}</p>
+              </div>
             </div>
-            <h3 className="text-2xl md:text-3xl font-playfair text-foreground mb-2">
-              {couple.bride.fullName}
-            </h3>
-            <p className="text-muted-foreground">{couple.bride.parents}</p>
           </FadeIn>
         </div>
       </div>

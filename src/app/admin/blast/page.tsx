@@ -13,6 +13,7 @@ import {
   MessageSquare,
   RotateCcw,
   Download,
+  Upload,
   ChevronLeft,
   ChevronRight,
   ArrowUpDown,
@@ -165,7 +166,7 @@ function StatsCards({ stats }: { stats: Stats }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-3">
       {cards.map((card) => (
         <div
           key={card.label}
@@ -238,6 +239,13 @@ export default function AdminBlastPage() {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [confirmReset, setConfirmReset] = useState<number | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<{
+    inserted: number;
+    skipped: number;
+    total: number;
+    parseErrors: string[];
+  } | null>(null);
 
   // Debounce search
   useEffect(() => {
@@ -386,6 +394,39 @@ export default function AdminBlastPage() {
     [addToast]
   );
 
+  // Import Excel
+  const handleImport = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      e.target.value = "";
+
+      setImporting(true);
+      setImportResult(null);
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/guests/import", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        setImportResult(data);
+        await fetchGuests();
+        addToast(`Imported ${data.inserted} guests`, "success");
+      } catch (err) {
+        addToast(
+          `Import failed: ${err instanceof Error ? err.message : "Unknown error"}`,
+          "error"
+        );
+      } finally {
+        setImporting(false);
+      }
+    },
+    [addToast, fetchGuests]
+  );
+
   // Export CSV
   const exportCsv = useCallback(() => {
     const headers = ["No", "Name", "Slug", "Phone", "Status", "Sent At"];
@@ -472,10 +513,38 @@ export default function AdminBlastPage() {
                 Manage and send wedding invitations via WhatsApp
               </p>
             </div>
-            <Button variant="outline" onClick={exportCsv} className="gap-2">
-              <Download className="size-4" />
-              <span className="hidden sm:inline">Export CSV</span>
-            </Button>
+            <div className="flex gap-2">
+              <label>
+                <input
+                  type="file"
+                  accept=".xlsx,.xls,.csv"
+                  className="hidden"
+                  onChange={handleImport}
+                  disabled={importing}
+                />
+                <Button
+                  variant="outline"
+                  className="gap-2 cursor-pointer"
+                  asChild
+                  disabled={importing}
+                >
+                  <span>
+                    {importing ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Upload className="size-4" />
+                    )}
+                    <span className="hidden sm:inline">
+                      {importing ? "Importing..." : "Import Excel"}
+                    </span>
+                  </span>
+                </Button>
+              </label>
+              <Button variant="outline" onClick={exportCsv} className="gap-2">
+                <Download className="size-4" />
+                <span className="hidden sm:inline">Export CSV</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -830,6 +899,50 @@ export default function AdminBlastPage() {
           )}
         </div>
       </div>
+
+      {/* Import Result Modal */}
+      {importResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="mx-4 w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">Import Selesai</h3>
+              <button onClick={() => setImportResult(null)}>
+                <X className="size-5 text-gray-400 hover:text-gray-600" />
+              </button>
+            </div>
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="rounded-lg bg-emerald-50 p-3">
+                  <p className="text-2xl font-bold text-emerald-600">{importResult.inserted}</p>
+                  <p className="text-xs text-emerald-600">Inserted</p>
+                </div>
+                <div className="rounded-lg bg-amber-50 p-3">
+                  <p className="text-2xl font-bold text-amber-600">{importResult.skipped}</p>
+                  <p className="text-xs text-amber-600">Skipped</p>
+                </div>
+                <div className="rounded-lg bg-blue-50 p-3">
+                  <p className="text-2xl font-bold text-blue-600">{importResult.total}</p>
+                  <p className="text-xs text-blue-600">Total</p>
+                </div>
+              </div>
+              {importResult.parseErrors.length > 0 && (
+                <div className="rounded-lg border border-red-200 bg-red-50 p-3">
+                  <p className="mb-1 text-xs font-medium text-red-700">Parse errors:</p>
+                  {importResult.parseErrors.map((e, i) => (
+                    <p key={i} className="text-xs text-red-600">{e}</p>
+                  ))}
+                </div>
+              )}
+              <p className="text-xs text-gray-400">
+                Skipped = slug sudah ada (duplicate)
+              </p>
+            </div>
+            <Button className="mt-4 w-full" onClick={() => setImportResult(null)}>
+              OK
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Toasts */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />

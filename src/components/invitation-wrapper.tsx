@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail } from "lucide-react";
 import { weddingConfig } from "@/lib/config";
@@ -15,7 +15,20 @@ export function InvitationWrapper({
   children,
 }: InvitationWrapperProps) {
   const [isOpened, setIsOpened] = useState(false);
-  const { couple, events } = weddingConfig;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { couple, events, background } = weddingConfig;
+
+  // Lock scroll when cover is showing
+  useEffect(() => {
+    if (!isOpened) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpened]);
 
   const weddingDate = new Date(`${events.akad.date}T${events.akad.time}`);
   const formattedDate = weddingDate.toLocaleDateString("id-ID", {
@@ -26,6 +39,30 @@ export function InvitationWrapper({
 
   return (
     <>
+      {/* Full-page background — config di src/lib/config.ts */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        {background.videoSrc && (
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={background.videoSrc} type="video/mp4" />
+          </video>
+        )}
+        {!background.videoSrc && background.imageSrc && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={background.imageSrc}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        <div className={`absolute inset-0 ${background.overlayClass}`} />
+      </div>
+
       {/* Cover / Envelope */}
       <AnimatePresence>
         {!isOpened && (
@@ -113,16 +150,25 @@ export function InvitationWrapper({
               </motion.div>
 
               {/* Open Button */}
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.9 }}
-                onClick={() => setIsOpened(true)}
-                className="group mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-rose-500 py-5 text-base font-medium text-white shadow-lg shadow-rose-200 transition-all hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200 active:scale-95 sm:w-auto sm:px-16"
+                className="mt-8 w-full sm:w-auto"
               >
-                <Mail className="size-4 transition-transform group-hover:-rotate-6" />
-                Buka Undangan
-              </motion.button>
+                <motion.button
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
+                  onClick={() => {
+                    videoRef.current?.play();
+                    setIsOpened(true);
+                  }}
+                  className="group flex w-full items-center justify-center gap-3 rounded-full bg-rose-500 py-5 text-base font-medium text-white shadow-lg shadow-rose-200 transition-colors hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-200 active:scale-95 sm:w-auto sm:px-16"
+                >
+                  <Mail className="size-4 transition-transform group-hover:-rotate-6" />
+                  Buka Undangan
+                </motion.button>
+              </motion.div>
 
               {/* Subtle hint */}
               <motion.p

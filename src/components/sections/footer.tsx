@@ -1,14 +1,15 @@
 "use client";
 
 import { Heart, Instagram } from "lucide-react";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { FadeIn } from "@/components/animations/fade-in";
 
 export function FooterSection() {
   const { couple, social } = weddingConfig;
+  const bg = getSectionBg("footer");
 
   return (
-    <section className="py-16 px-6 bg-rose-50">
+    <section className={`py-16 px-6 ${bg.className}`} style={bg.style}>
       <div className="max-w-4xl mx-auto text-center">
         <FadeIn>
           <p className="text-muted-foreground mb-6 leading-relaxed max-w-xl mx-auto">

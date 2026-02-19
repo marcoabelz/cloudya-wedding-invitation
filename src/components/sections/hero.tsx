@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { weddingConfig } from "@/lib/config";
+import { weddingConfig, getSectionBg } from "@/lib/config";
 import { useCountdown } from "@/hooks/use-countdown";
 
 interface HeroSectionProps {
@@ -11,15 +11,12 @@ interface HeroSectionProps {
 
 export function HeroSection({ guestName }: HeroSectionProps) {
   const { couple, events } = weddingConfig;
+  const bg = getSectionBg("hero");
   const weddingDate = new Date(`${events.akad.date}T${events.akad.time}`);
   const countdown = useCountdown(weddingDate);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-rose-50 via-white to-rose-50">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('/images/pattern.svg')] bg-repeat bg-center" />
-      </div>
+    <section className={`relative min-h-screen flex flex-col items-center justify-center overflow-hidden ${bg.className}`} style={bg.style}>
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 py-20">

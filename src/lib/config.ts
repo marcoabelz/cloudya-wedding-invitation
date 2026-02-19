@@ -8,15 +8,15 @@ export const weddingConfig = {
   couple: {
     bride: {
       name: "Cloudya",
-      fullName: "Cloudya Nama Lengkap",
-      parents: "Putri dari Bapak ... & Ibu ...",
-      photo: "/images/couple/bride.svg",
+      fullName: "Cloudya Diajeng Putri",
+      parents: "Putri dari Bapak Achmad Hary Purnomo & Ibu Tini",
+      photo: "/images/couple/user1.jpeg",
     },
     groom: {
       name: "Alvin",
-      fullName: "Alvin Nama Lengkap",
-      parents: "Putra dari Bapak ... & Ibu ...",
-      photo: "/images/couple/groom.svg",
+      fullName: "Alvin Dwiki Alfarez",
+      parents: "Putra dari Bapak Alm. Dedi Rohendi  & Ibu Hernani Nurcahyani",
+      photo: "/images/couple/user1.jpeg",
     },
   },
 
@@ -24,21 +24,23 @@ export const weddingConfig = {
   events: {
     akad: {
       title: "Akad Nikah",
-      date: "2026-03-15", // Format: YYYY-MM-DD
+      date: "2026-05-09", // Format: YYYY-MM-DD
       time: "08:00",
       endTime: "10:00",
-      venue: "Masjid Agung",
-      address: "Jl. Contoh No. 123, Jakarta",
-      mapUrl: "https://maps.google.com/?q=-6.2088,106.8456",
+      venue: "Rumah Kayu ilir-ilir",
+      address:
+        "Jl. H. Amsir, Rangkapan Jaya, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16435",
+      mapUrl: "https://maps.app.goo.gl/3BpwFTqoqQcD6MJDA",
     },
     resepsi: {
       title: "Resepsi",
-      date: "2026-03-15",
+      date: "2026-05-09",
       time: "11:00",
       endTime: "14:00",
-      venue: "Ballroom Hotel Grand",
-      address: "Jl. Contoh No. 456, Jakarta",
-      mapUrl: "https://maps.google.com/?q=-6.2088,106.8456",
+      venue: "Rumah Kayu ilir-ilir",
+      address:
+        "Jl. H. Amsir, Rangkapan Jaya, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16435",
+      mapUrl: "https://maps.app.goo.gl/3BpwFTqoqQcD6MJDA",
     },
   },
 
@@ -98,6 +100,31 @@ export const weddingConfig = {
     fontBody: "inter", // Body font for text
   },
 
+  // Background Configuration
+  // Taruh file video/gambar di folder public/videos/ atau public/images/
+  background: {
+    videoSrc: "/videos/background.mp4",
+    imageSrc: "", // fallback jika video tidak support / kosongkan jika tidak pakai
+    overlayClass: "bg-black/30",
+
+    // Background per section
+    // imageSrc : isi path gambar (cth: "/images/couple-bg.jpg"), kosongkan jika tidak pakai
+    // className: Tailwind class saat tidak ada imageSrc
+    //   "bg-white/60 backdrop-blur-sm"    → frosted glass (default)
+    //   "bg-white/90"                     → hampir solid putih
+    //   "bg-transparent"                  → video/global bg tembus penuh
+    //   "bg-rose-100/70 backdrop-blur-sm" → frosted rose
+    sections: {
+      hero:    { imageSrc: "", className: "bg-transparent" },
+      couple:  { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+      event:   { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+      gallery: { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+      gifts:   { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+      rsvp:    { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+      footer:  { imageSrc: "", className: "bg-white/60 backdrop-blur-sm" },
+    },
+  },
+
   // SEO & Meta
   meta: {
     title: "Cloudya & Alvin Wedding Invitation",
@@ -105,6 +132,25 @@ export const weddingConfig = {
     ogImage: "/images/og-image.jpg",
   },
 } as const;
+
+// Helper — dipakai di tiap section component
+export function getSectionBg(key: keyof typeof weddingConfig.background.sections) {
+  const { imageSrc, className } = weddingConfig.background.sections[key] as {
+    imageSrc: string;
+    className: string;
+  };
+  if (imageSrc) {
+    return {
+      className: "",
+      style: {
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url('${imageSrc}')`,
+        backgroundSize: "cover" as const,
+        backgroundPosition: "center" as const,
+      },
+    };
+  }
+  return { className, style: undefined };
+}
 
 // Type exports for type safety
 export type WeddingConfig = typeof weddingConfig;
