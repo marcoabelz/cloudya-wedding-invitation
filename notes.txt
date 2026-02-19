@@ -1,0 +1,191 @@
+Siap bro! Ini rangkuman file yang perlu lu edit:                                                                                                                          
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  📁 File yang Perlu Diedit                                                                                                                                                 
+                                                                                                                                                                            
+  1. src/lib/config.ts - Data Utama                                                                                                                                         
+                                                                                                                                                                            
+  // Nama mempelai                                                                                                                                                          
+  couple: {                                                                                                                                                                 
+    bride: {                                                                                                                                                                
+      name: "Cloudya",           // Nama pendek                                                                                                                             
+      fullName: "Cloudya ...",   // Nama lengkap                                                                                                                            
+      parents: "Putri dari ...", // Nama orang tua                                                                                                                          
+      photo: "/images/couple/bride.jpg",                                                                                                                                    
+    },                                                                                                                                                                      
+    groom: {                                                                                                                                                                
+      name: "Alvin",                                                                                                                                                        
+      fullName: "Alvin ...",                                                                                                                                                
+      parents: "Putra dari ...",                                                                                                                                            
+      photo: "/images/couple/groom.jpg",                                                                                                                                    
+    },                                                                                                                                                                      
+  },                                                                                                                                                                        
+                                                                                                                                                                            
+  // Tanggal & Lokasi                                                                                                                                                       
+  events: {                                                                                                                                                                 
+    akad: {                                                                                                                                                                 
+      date: "2026-03-15",        // YYYY-MM-DD                                                                                                                              
+      time: "08:00",                                                                                                                                                        
+      endTime: "10:00",                                                                                                                                                     
+      venue: "Masjid ...",                                                                                                                                                  
+      address: "Jl. ...",                                                                                                                                                   
+      mapUrl: "https://maps.google.com/...",                                                                                                                                
+    },                                                                                                                                                                      
+    resepsi: { ... },                                                                                                                                                       
+  },                                                                                                                                                                        
+                                                                                                                                                                            
+  // Galeri foto                                                                                                                                                            
+  gallery: [                                                                                                                                                                
+    { src: "/images/gallery/1.jpg", alt: "Foto 1" },                                                                                                                        
+    { src: "/images/gallery/2.jpg", alt: "Foto 2" },                                                                                                                        
+  ],                                                                                                                                                                        
+                                                                                                                                                                            
+  // Rekening                                                                                                                                                               
+  gifts: [                                                                                                                                                                  
+    { bank: "BCA", accountNumber: "123...", accountName: "Cloudya" },                                                                                                       
+    { bank: "Mandiri", accountNumber: "456...", accountName: "Alvin" },                                                                                                     
+  ],                                                                                                                                                                        
+                                                                                                                                                                            
+  // Instagram                                                                                                                                                              
+  social: {                                                                                                                                                                 
+    instagram: "@cloudyaalvin",                                                                                                                                             
+  },                                                                                                                                                                        
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  2. public/ - Assets                                                                                                                                                       
+                                                                                                                                                                            
+  public/                                                                                                                                                                   
+  ├── favicon.svg              # Icon tab browser                                                                                                                           
+  ├── audio/                                                                                                                                                                
+  │   └── music.mp3            # Background music                                                                                                                           
+  └── images/                                                                                                                                                               
+      ├── couple/                                                                                                                                                           
+      │   ├── bride.jpg        # Foto mempelai wanita                                                                                                                       
+      │   └── groom.jpg        # Foto mempelai pria                                                                                                                         
+      ├── gallery/                                                                                                                                                          
+      │   ├── 1.jpg            # Foto prewedding                                                                                                                            
+      │   ├── 2.jpg                                                                                                                                                         
+      │   └── ...                                                                                                                                                           
+      └── og-image.jpg         # Preview social media (opsional)                                                                                                            
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  3. .env.local - Supabase Config                                                                                                                                           
+                                                                                                                                                                            
+  NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co                                                                                                                          
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...                                                                                                                                 
+  NEXT_PUBLIC_BASE_URL=https://undanganlu.com  # Setelah deploy                                                                                                             
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  4. Supabase Dashboard - Data Tamu                                                                                                                                         
+                                                                                                                                                                            
+  Tambah tamu di table guests:                                                                                                                                              
+  INSERT INTO guests (name, slug) VALUES                                                                                                                                    
+  ('Budi Santoso', 'budi-santoso'),                                                                                                                                         
+  ('Siti Aminah', 'siti-aminah');                                                                                                                                           
+                                                                                                                                                                            
+  URL jadi: https://undanganlu.com/budi-santoso                                                                                                                             
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  🚀 Deploy ke Vercel                                                                                                                                                       
+                                                                                                                                                                            
+  1. Push ke GitHub                                                                                                                                                         
+  2. Connect repo di Vercel                                                                                                                                                 
+  3. Add environment variables di Vercel dashboard                                                                                                                          
+  4. Custom domain di Settings → Domains                                                                                                                                    
+                                                                                                                                                                            
+  ---                                                                                                                                                                       
+  Quick Checklist                                                                                                                                                           
+  ┌────────────────────────┬────────────────────────────────────┐                                                                                                           
+  │          Task          │           File/Location            │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti nama mempelai    │ config.ts                          │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti tanggal & lokasi │ config.ts                          │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti foto couple      │ public/images/couple/              │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Tambah foto gallery    │ public/images/gallery/ + config.ts │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti rekening         │ config.ts                          │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti musik            │ public/audio/music.mp3             │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Ganti favicon          │ public/favicon.svg                 │                                                                                                           
+  ├────────────────────────┼────────────────────────────────────┤                                                                                                           
+  │ Tambah tamu            │ Supabase guests table              │                                                                                                           
+  └────────────────────────┴────────────────────────────────────┘                                                                                                           
+  ---                                                                                                                                                                       
+  ---
+  5. WhatsApp Blast Dashboard - /admin/blast
+
+  SETUP:
+  - Tambah env variable di .env.local:
+    NEXT_PUBLIC_INVITATION_DOMAIN=undanganlu.com
+
+  - Pastikan table guests punya kolom lengkap:
+    CREATE TABLE jika belum ada, atau ALTER TABLE:
+    - phone (varchar 20)     → nomor WA tamu (format: 081234567890)
+    - sent_at (timestamptz)  → otomatis diisi saat klik Send WA
+    - whatsapp_opened (bool) → tracking WA dibuka
+    - rsvp_submitted (bool)  → tracking RSVP
+
+  INSERT tamu dengan phone:
+  INSERT INTO guests (name, slug, phone) VALUES
+  ('Budi Santoso', 'budi-santoso', '081234567890'),
+  ('Siti Aminah', 'siti-aminah', '089876543210');
+
+  CARA PAKAI:
+  1. Buka https://undanganlu.com/admin/blast
+  2. Semua tamu muncul di tabel dengan status Pending/Sent
+  3. Klik "Send WA" → buka WhatsApp dengan pesan otomatis + update DB
+  4. Progress bar update realtime (250/500 sent)
+  5. Filter: All / Pending / Sent
+  6. Search by nama atau nomor HP
+  7. Bulk select → kirim sekaligus beberapa tamu
+  8. Export CSV untuk backup data
+
+  FITUR:
+  ┌─────────────────────┬──────────────────────────────────────────────┐
+  │      Feature         │              Keterangan                      │
+  ├─────────────────────┼──────────────────────────────────────────────┤
+  │ Send WA Button      │ Buka wa.me link + mark sent di DB            │
+  │ Resend              │ Kirim ulang yang sudah pernah dikirim         │
+  │ Reset               │ Double-click untuk reset status ke Pending    │
+  │ Copy Message        │ Copy template pesan WA ke clipboard           │
+  │ Bulk Select         │ Checkbox + Send Selected                      │
+  │ Stats Cards         │ Total, Sent, Pending, WA Opened, RSVP        │
+  │ Progress Bar        │ Visual bar sent/total                         │
+  │ Search + Filter     │ Cari nama/HP, filter All/Sent/Pending         │
+  │ Sort                │ Klik header kolom untuk sort                   │
+  │ Pagination          │ 50 per halaman                                 │
+  │ CSV Export          │ Download data tamu sebagai CSV                  │
+  │ Toast Notification  │ Feedback sukses/error                          │
+  └─────────────────────┴──────────────────────────────────────────────┘
+
+  TEMPLATE PESAN WA:
+  Halo [NAMA]! 🎉
+  Dengan penuh sukacita, kami mengundang Anda untuk hadir di hari bahagia kami.
+  📱 Lihat undangan digital Anda:
+  https://[DOMAIN]/undangan/[SLUG]
+  Mohon konfirmasi kehadiran ya! 🙏
+  Terima kasih ❤️
+
+  → Edit template di: src/app/admin/blast/page.tsx (variabel WA_TEMPLATE)
+
+  FORMAT NOMOR HP:
+  - Input: 081234567890 (awalan 0)
+  - Auto convert ke: 6281234567890 (awalan 62)
+  - Dipakai di: wa.me/6281234567890?text=...
+
+  API ENDPOINTS:
+  - GET  /api/guests          → Ambil semua tamu + stats
+  - PATCH /api/guests/[id]    → Update tamu (sent_at, phone, dll)
+
+  FILE TERKAIT:
+  - src/app/admin/blast/page.tsx      → Dashboard UI
+  - src/app/api/guests/route.ts       → GET endpoint
+  - src/app/api/guests/[id]/route.ts  → PATCH endpoint
+  - src/lib/supabase/types.ts         → Database types
+
+  ---
+  Ada yang mau ditambahin lagi bro?
